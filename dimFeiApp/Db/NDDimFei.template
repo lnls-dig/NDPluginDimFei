@@ -1,0 +1,112 @@
+#=================================================================#
+# Template file: NDDimFei.template
+
+include "NDPluginBase.template"
+
+record(bo, "$(P)$(R)ComputeStatistics")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))COMPUTE_STATISTICS")
+   field(VAL,  "1")
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+   info(autosaveFields, "VAL")
+}
+
+record(bi, "$(P)$(R)ComputeStatistics_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))COMPUTE_STATISTICS")
+   field(ZNAM, "No")
+   field(ONAM, "Yes")
+   field(ZSV,  "NO_ALARM")
+   field(OSV,  "MINOR")
+   field(SCAN, "I/O Intr")
+}
+
+###################################################################
+#  These records contain the centroid statistics                  #
+###################################################################
+record(ao, "$(P)$(R)CentroidX")
+{
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))CENTROIDX_VALUE")
+}
+
+record(ai, "$(P)$(R)CentroidX_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))CENTROIDX_VALUE")
+   field(PREC, "1")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)CentroidY")
+{
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))CENTROIDY_VALUE")
+}
+
+record(ai, "$(P)$(R)CentroidY_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))CENTROIDY_VALUE")
+   field(PREC, "1")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)SigmaX")
+{
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIGMAX_VALUE")
+}
+
+record(ai, "$(P)$(R)SigmaX_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIGMAX_VALUE")
+   field(PREC, "1")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)SigmaY")
+{
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIGMAY_VALUE")
+}
+
+record(ai, "$(P)$(R)SigmaY_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIGMAY_VALUE")
+   field(PREC, "1")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)Orientation")
+{
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ORIENTATION_VALUE")
+}
+
+record(ai, "$(P)$(R)Orientation_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ORIENTATION_VALUE")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+###################################################################
+#  These records reset the statistics                             #
+###################################################################
+record(sseq, "$(P)$(R)Reset")
+{
+   field(LNK1, "$(P)$(R)CentroidX PP MS")    
+   field(LNK2, "$(P)$(R)CentroidY PP MS")    
+   field(LNK3, "$(P)$(R)SigmaX PP MS")    
+   field(LNK4, "$(P)$(R)SigmaY PP MS")    
+   field(LNK5, "$(P)$(R)Orientation PP MS")    
+}
+

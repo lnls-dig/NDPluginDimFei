@@ -1,0 +1,3 @@
+SUPPORT=/opt/epics/synApps-lnls-R0-0-2/support
+-include $(SUPPORT)/configure/RELEASE
+
