@@ -31,10 +31,6 @@ extern "C" DIMFEI_LM_2D_API int calc_parameters(unsigned char *intensity, int wi
 
     Dist2D image(intensity, w, h);
 
-    r = image.test_image();
-    if (r)
-        return r;
-
     if (!are_prms_defined) {
         image.calc_default_parameters(prms_default);
         are_prms_defined = true;

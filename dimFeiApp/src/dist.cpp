@@ -68,18 +68,45 @@ void Dist2D::calc_default_parameters(gaussian_parameters &prms_out) {
     }
 
     prms_out.amplitude = max - min;
-    prms_out.cent_ver = ((float)height-1)/2;
-    prms_out.cent_hor = ((float)width-1)/2;
-    prms_out.sigma_ver = sqrt((float)height-1);
-    prms_out.sigma_hor = sqrt((float)width-1);
     prms_out.angle = 0.0;
     prms_out.offset = min;
+
+    // calculate center of mass
+    float pixel, pixelSum = 0, centerX = 0, centerY = 0;
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
+	    pixel = dist[i*width+j];
+	    centerX += j*pixel;
+	    centerY += i*pixel;
+	    pixelSum += pixel;
+	}
+    }
+    centerX = centerX / pixelSum;
+    centerY = centerY / pixelSum;
+    prms_out.cent_hor = centerX;
+    prms_out.cent_ver = centerY;
+
+    // calculate standard deviation
+    float sigmaGuessX = 0, sigmaGuessY = 0, diffX, diffY;
+    for(int i=0; i<height; i++){
+        for(int j=0; j<width; j++){
+	    pixel = dist[i*width+j];
+	    diffX = j - centerX;
+	    diffY = i - centerY;
+	    sigmaGuessX += diffX*diffX*pixel;
+	    sigmaGuessY += diffY*diffY*pixel;
+	}
+    }
+    sigmaGuessX = sqrt(sigmaGuessX / pixelSum);
+    sigmaGuessY = sqrt(sigmaGuessY / pixelSum);
+    prms_out.sigma_hor = sigmaGuessX;  
+    prms_out.sigma_ver = sigmaGuessY;
 }
 int Dist2D::fit_gaussian(gaussian_parameters prms_in) {
     const int delta_max_min = 10;
     const int num_iters = 50;
     const float tol_chi2 = 1e-6F;
-    const float lambda0 = 0.001F;
+    const float lambda0 = 1;
     const float lambda_change_factor = 10;
 
     int i, j, k, r;
